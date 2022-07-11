@@ -6,7 +6,6 @@ Aceleracao gravitacional: 9.80665
 
 Velocidade inicial: 120
 Angulo de lancamento: 45.0
-
 Tempo de simulacao: 100
 Passo de simulacao: 0.001
 
