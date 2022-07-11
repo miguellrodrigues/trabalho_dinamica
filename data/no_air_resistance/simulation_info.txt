@@ -1,0 +1,18 @@
+Simulacao de foguete com massa constante
+
+Massa: 1
+Aceleracao gravitacional: 9.80665
+
+Velocidade inicial: 120
+Angulo de lancamento: 45.0
+
+Tempo de simulacao: 100
+Passo de simulacao: 0.001
+
+Tempo necessario para alcancar o zero de y: 17.306173061730615
+
+Alcance vertical: 367.09883548287576
+Alcance horizontal: 1468.3926257382416
+
+Alcance vertical teorico: 367.09883667205406
+Alcance horizontal teorico: 1468.3923466875356
