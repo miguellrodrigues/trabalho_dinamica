@@ -14,11 +14,11 @@ plt.style.use(
 
 # dados foguete
 m = .875  # massa do foguete
-r = .125  # raio do bico (m)
+r = .15  # raio do bico (m)
 
 # Arrasto
 A = np.pi * r**2
-cd = .425  # coeficiente de arrasto
+cd = 2.327  # coeficiente de arrasto
 rho = 1.1839
 g = 9.80665  # aceleracao gravitacional
 
