@@ -5,36 +5,39 @@ from scipy.special import lambertw
 
 plt.style.use(
     [
-        'science',
         'nature',
+        'science',
         'grid',
+        'notebook',
     ]
 )
 
-b = .125
-m = 1  # massa do foguete
+# dados foguete
+m = .875  # massa do foguete
+r = .125  # raio do bico (m)
+
+# Arrasto
+A = np.pi * r**2
+cd = .425  # coeficiente de arrasto
+rho = 1.1839
 g = 9.80665  # aceleracao gravitacional
 
-V_0 = 50  # modulo da velocidade inicial
+V_0 = 120  # modulo da velocidade inicial
 thetas = np.linspace(0, 90, 1000)
 
-X_0 = .0  # posicao horizontal inicial
-Y_0 = 1e-3 # posicao vertical inicial
+V0_X = V_0 * np.cos(np.deg2rad(thetas))  # componente horizontal da velocidade inicial
+V0_Y = V_0 * np.sin(np.deg2rad(thetas))  # componente vertical da velociade inicial
 
-V0_X = V_0 * np.cos(np.deg2rad(thetas))
-V0_Y = V_0 * np.sin(np.deg2rad(thetas))
+theorical_horizontal_ranges = 2*V0_X*m/(A*cd*rho) - 2*V0_X*m*np.exp(-(A*V0_Y*cd*rho + 2*g*m*lambertw(-np.sqrt((A**2*V0_Y**2*cd**2*rho**2 + 4*A*V0_Y*cd*g*m*rho + 4*g**2*m**2)*np.exp(-A*V0_Y*cd*rho/(g*m)))*np.exp(-1)/(2*g*m)) + 2*g*m)/(2*g*m))/(A*cd*rho)
+theorical_vertical_ranges = 2*m*(A*V0_Y*cd*rho - 2*g*m*np.log(A*V0_Y*cd*rho + 2*g*m) + np.log(2**(2*g*m)*g**(2*g*m)*m**(2*g*m)))/(A**2*cd**2*rho**2)
 
-theorical_horizontal_ranges = np.real(
-    m*V0_X/b - m*V0_X*np.exp(-(b*V0_Y + g*m*lambertw((-b*V0_Y - g*m)*np.exp(-b*V0_Y/(g*m) - 1)/(g*m)) + g*m)/(g*m))/b
-)
-theorical_vertical_ranges = -g*m**2*np.log(b*V0_Y/(g*m) + 1)/b**2 - (-b*m*V0_Y - g*m**2)/b**2 + (-b*m*V0_Y - g*m**2)/(b**2*(b*V0_Y/(g*m) + 1))
-
+real_part_thr = np.real(theorical_horizontal_ranges)
 
 ax, fig1 = plt.subplots()
 fig1.set_title('Alcances horizontais')
 fig1.set_xlabel('Angulo de lançamento (graus)')
 fig1.set_ylabel('Alcance (m)')
-fig1.plot(thetas, theorical_horizontal_ranges, label='Alcance horizontal')
+fig1.plot(thetas, real_part_thr, label='Alcance horizontal')
 plt.savefig('images/air_resistance/alcances_horizontais_angulo.png', dpi=300)
 
 ax, fig2 = plt.subplots()
