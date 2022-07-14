@@ -5,9 +5,10 @@ from scipy.special import lambertw
 
 plt.style.use(
     [
-        'science',
         'nature',
+        'science',
         'grid',
+        'notebook',
     ]
 )
 
