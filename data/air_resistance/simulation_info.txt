@@ -4,12 +4,12 @@ Massa: 0.875
 Coeficiente de resistencia aerodinamica: 0.425
 Aceleracao gravitacional: 9.80665
 
-Velocidade inicial: 60
+Velocidade inicial: 30
 Angulo de lancamento: 45.0
 Tempo de simulacao: 60
 Passo de simulacao: 0.001
 
-Tempo necessario para alcancar o zero de y: 8.285138085634761
+Tempo necessario para alcancar o zero de y: 3.644060734345573
 
-Alcance vertical (simulado | teorico): 84.05651024458857 | 84.05550468045655
-Alcance horizontal (simulado | teorico): 308.50892442420457 | (308.53039998496104+0j)
+Alcance vertical (simulado | teorico): 17.689986123645834 | 22.487079295261584
+Alcance horizontal (simulado | teorico): 52.256913836233096 | (88.16738906578667+0j)
