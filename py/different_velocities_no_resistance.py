@@ -5,17 +5,18 @@ from scipy.special import lambertw
 
 plt.style.use(
     [
-        'science',
         'nature',
+        'science',
         'grid',
+        'notebook',
     ]
 )
 
 b = .125
-m = 1  # massa do foguete
+m = .875  # massa do foguete
 g = 9.80665  # aceleracao gravitacional
 
-Velocities = np.linspace(10, 100, 1000)
+Velocities = np.linspace(1, 100, 1000)
 theta = np.pi/4
 
 X_0 = .0  # posicao horizontal inicial

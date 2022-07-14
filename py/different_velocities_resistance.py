@@ -5,42 +5,48 @@ from scipy.special import lambertw
 
 plt.style.use(
     [
-        'science',
         'nature',
+        'science',
         'grid',
+        'notebook',
     ]
 )
 
-b = .125
-m = 1  # massa do foguete
+# dados foguete
+m = .875  # massa do foguete
+r = .15  # raio do bico (m)
+
+# Arrasto
+A = np.pi * r**2
+cd = 2.327  # coeficiente de arrasto
+rho = 1.1839
 g = 9.80665  # aceleracao gravitacional
 
-Velocities = np.linspace(10, 100, 1000)
+V_0 = 120  # modulo da velocidade inicial
+velocities = np.linspace(1, 100, 1000)
+
 theta = np.pi/4
 
-X_0 = .0  # posicao horizontal inicial
-Y_0 = 1e-3 # posicao vertical inicial
+V0_X = velocities * np.cos(theta)  # componente horizontal da velocidade inicial
+V0_Y = velocities * np.sin(theta)  # componente vertical da velociade inicial
 
-V0_X = Velocities * np.cos(theta)
-V0_Y = Velocities * np.sin(theta)
+theorical_horizontal_ranges = 2*V0_X*m/(A*cd*rho) - 2*V0_X*m*np.exp(-(A*V0_Y*cd*rho + 2*g*m*lambertw(-np.sqrt((A**2*V0_Y**2*cd**2*rho**2 + 4*A*V0_Y*cd*g*m*rho + 4*g**2*m**2)*np.exp(-A*V0_Y*cd*rho/(g*m)))*np.exp(-1)/(2*g*m)) + 2*g*m)/(2*g*m))/(A*cd*rho)
+theorical_vertical_ranges = 2*m*(A*V0_Y*cd*rho - 2*g*m*np.log(A*V0_Y*cd*rho + 2*g*m) + np.log(2**(2*g*m)*g**(2*g*m)*m**(2*g*m)))/(A**2*cd**2*rho**2)
 
-theorical_horizontal_ranges = np.real(
-    m*V0_X/b - m*V0_X*np.exp(-(b*V0_Y + g*m*lambertw((-b*V0_Y - g*m)*np.exp(-b*V0_Y/(g*m) - 1)/(g*m)) + g*m)/(g*m))/b
-)
-theorical_vertical_ranges = -g*m**2*np.log(b*V0_Y/(g*m) + 1)/b**2 - (-b*m*V0_Y - g*m**2)/b**2 + (-b*m*V0_Y - g*m**2)/(b**2*(b*V0_Y/(g*m) + 1))
+real_part_thr = np.real(theorical_horizontal_ranges)
 
 ax, fig1 = plt.subplots()
 fig1.set_title('Alcances horizontais')
 fig1.set_xlabel('Velocidade inicial (m/s)')
 fig1.set_ylabel('Alcance (m)')
-fig1.plot(Velocities, theorical_horizontal_ranges, label='Alcance horizontal')
+fig1.plot(velocities, real_part_thr, label='Alcance horizontal')
 plt.savefig('images/air_resistance/alcances_horizontais_velocidade.png', dpi=300)
 
 ax, fig2 = plt.subplots()
 fig2.set_title('Alcances verticais')
 fig2.set_xlabel('Velocidade inicial (m/s)')
 fig2.set_ylabel('Alcance (m)')
-fig2.plot(Velocities, theorical_vertical_ranges, label='Alcance vertical')
+fig2.plot(velocities, theorical_vertical_ranges, label='Alcance vertical')
 
 plt.savefig('images/air_resistance/alcances_verticais_velocidade.png', dpi=300)
 plt.show()
