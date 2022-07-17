@@ -1,15 +1,15 @@
 Simulacao de foguete com massa constante
 
 Massa: 0.875
-Coeficiente de resistencia aerodinamica: 2.327
+Coeficiente de resistencia aerodinamica: 0.327
 Aceleracao gravitacional: 9.80665
 
-Velocidade inicial: 120
+Velocidade inicial: 200
 Angulo de lancamento: 45.0
-Tempo de simulacao: 60
+Tempo de simulacao: 120
 Passo de simulacao: 0.001
 
-Tempo necessario para alcancar o zero de y: 13.87023117051951
+Tempo necessario para alcancar o zero de y: 7.132059433828616
 
-Alcance vertical (simulado | teorico): 228.45048100456265 | 228.43966436206085
-Alcance horizontal (simulado | teorico): 599.5822482253465 | (599.6367267472879+0j)
+Alcance vertical (simulado | teorico): 111.80901910513447 | (11.185223812745548-25.608379360327774j)
+Alcance horizontal (simulado | teorico): 180.52534049373 | (11.84687473770458-54.38744247002772j)
