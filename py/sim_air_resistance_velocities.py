@@ -7,7 +7,6 @@ plt.style.use(
     [
         'nature',
         'science',
-        'grid',
         'notebook',
     ]
 )
@@ -26,8 +25,8 @@ b = .5 * rho * cd * A
 m = .875  # massa do foguete
 g = 9.80665  # aceleracao gravitacional
 
-V_0 = 120  # modulo da velocidade inicial (m/s)
-thetas = np.arange(0, 90, 1)  # angulo de lancamento (rad)
+V_0 = np.arange(1, 200, 5)  # modulo da velocidade inicial (m/s)
+theta = np.deg2rad(45)  # angulo de lancamento (rad)
 
 simulation_time = 60  # duracao da simulacao
 simulation_step = 1e-3  # tempo de simulacao
@@ -52,14 +51,14 @@ def dSdt(_, S):
     ]
 
 
-horizontal_ranges = np.zeros((len(thetas)))
-vertical_ranges   = np.zeros((len(thetas)))
+horizontal_ranges = np.zeros((len(V_0)))
+vertical_ranges   = np.zeros((len(V_0)))
 
-for i in range(len(thetas)):
-    theta = np.deg2rad(thetas[i])
+for i in range(len(V_0)):
+    V = V_0[i]
 
-    V0_X = V_0 * np.cos(theta)
-    V0_Y = V_0 * np.sin(theta)
+    V0_X = V * np.cos(theta)
+    V0_Y = V * np.sin(theta)
 
     sol = solve_ivp(
         dSdt,
@@ -86,12 +85,12 @@ for i in range(len(thetas)):
 
 
 # polyfit for horizontal range
-p_h = np.polyfit(np.deg2rad(thetas), horizontal_ranges, 32)
-p_v = np.polyfit(np.deg2rad(thetas), vertical_ranges, 8)
+p_h = np.polyfit(V_0, horizontal_ranges, 6)
+p_v = np.polyfit(V_0, vertical_ranges, 6)
 
 # evaluate the polynomial
-y_h = np.polyval(p_h, np.deg2rad(thetas))
-y_v = np.polyval(p_v, np.deg2rad(thetas))
+y_h = np.polyval(p_h, V_0)
+y_v = np.polyval(p_v, V_0)
 
 np.set_printoptions(precision=6, suppress=True)
 
@@ -100,10 +99,35 @@ print(p_h)
 print("\nVertical range polynomial:")
 print(p_v)
 
+fig, ax = plt.subplots(1, 1, figsize=(8, 6))
 
-plt.plot(thetas, horizontal_ranges, 'o', label='horizontal range')
-plt.plot(thetas, y_h, '-', label='horizontal range polynomial')
-plt.plot(thetas, vertical_ranges, 'o', label='vertical range')
-plt.plot(thetas, y_v, '-', label='vertical range polynomial')
-plt.legend()
+ax.set_xlabel("Velocidade inicial (m/s)")
+ax.grid(True)
+
+ax.plot(V_0, horizontal_ranges, 'o', label='Alcance horizontal', color='red')
+ax.set_ylabel('Alcance horizontal (m)')
+
+ax1 = ax.twinx()
+ax1.plot(V_0, vertical_ranges, 'o', label='Alcance vertical', color='green')
+ax1.grid(False)
+ax1.set_ylabel('Alcance vertical (m)')
+plt.legend(loc='lower center')
+plt.savefig('sim_data1.png', dpi=300)
+
+fig1, ax_1 = plt.subplots(1, 1, figsize=(8, 6))
+
+ax_1.grid(True)
+
+ax_1.set_xlabel("Velocidade inicial (m/s)")
+ax_1.plot(V_0, y_h, '-', color='red', label='Aproximação polinomial (Horizontal)')
+ax_1.set_ylabel('Alcance horizontal (m)')
+
+ax11 = ax_1.twinx()
+ax11.grid(False)
+
+ax11.plot(V_0, y_v, '-', label='Aproximação polinomial (Vertical)', color='green')
+ax11.set_ylabel('Alcance vertical (m)')
+plt.legend(loc='lower center')
+
+plt.savefig('poly_approx1.png', dpi=300)
 plt.show()
